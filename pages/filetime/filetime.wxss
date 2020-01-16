@@ -1,0 +1,13 @@
+/* pages/telphone/telphone.wxss */
+@import '/weui.wxss';
+.placeholder{
+    /*posti*/
+    margin: 5px;
+    padding: 0 10px;
+    text-align: center;
+    background-color: #EBEBEB;
+    height: 2.3em;
+    line-height: 2.3em;
+    /*color: ;*/
+}
+

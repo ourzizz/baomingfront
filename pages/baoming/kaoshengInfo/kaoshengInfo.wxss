@@ -1,0 +1,42 @@
+/* pages/baoming/kaoshengInfo/kaoshengInfo.wxss */
+@import "/common/wxss/writeMsg.wxss";
+@import "/pages/bookstore/bookstore.wxss";
+.left_box{
+  top: 0rpx;
+}
+.right_box{
+  top: 0rpx;
+}
+.input_box{
+    display: flex;
+    flex-direction:row;
+    justify-content:space-between;
+}
+.lable{
+    font-size: 30rpx;
+  align-items:center;
+    width: 40%;
+}
+.value{
+    font-size: 30rpx;
+    float: right;
+    width: 60%;
+}
+.zhiwei{
+    font-size: 30rpx;
+    text-decoration:underline
+}
+.radio{
+  position: relative;
+  bottom: 5rpx;
+}
+.weui-uploader{
+  padding: 0;
+}
+.spring{
+  height: 120rpx;
+}
+.foot{
+  display: flex;
+  width: 100%;
+}

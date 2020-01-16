@@ -1,0 +1,208 @@
+<view class="page">
+  <view class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{tabs}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item[0]}}</view>
+          </view>
+        </block>
+        <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view>
+      </view>
+
+
+      <block wx:if="{{tabs != false}}">
+        <!-- 没有notify的话就不用渲染导航 -->
+        <view class="weui-tab__panel">
+          <block wx:for="{{tabs}}" wx:key="*this" wx:for-index="idx">
+            <block wx:if="{{item[0] == '时间节点' }}">
+              <view class="notify_box" hidden="{{activeIndex != idx}}">
+                <view class="notify_panel">
+                    <view wx:for="{{item[1]}}" class="event-item">
+                        <view class="head" style='border-radius: 20%;color:white;background:#0F59A4;padding:5rpx 10rpx 5rpx 10rpx;margin-right:5rpx; font-size:26rpx;display:inline'>{{item.event}}</view>
+                        <view class="time" style='margin:1rpx;font-size:26rpx;color:blue;display:inline'>{{item.startime}}至{{item.endtime}}</view>
+                        <view style='margin:1rpx;font-size:26rpx;'>{{item.detail}}</view>
+                    </view>
+                  </view>
+              </view>
+            </block>
+
+            <block wx:else> <!-- 消息中的图片展示 -->
+              <block wx:if="{{item[2] === 'img'}}">
+                <view class="notify_panel images_box" hidden="{{activeIndex != idx}}">
+                  <block wx:for="{{item[1]}}" data-src="{{item[1]}}" wx:key="*this" wx:for-index='img_idx'>
+                    <image src="{{item}}" mode='widthFix' class="file_images" data-tab_idx="{{idx}}" data-img_idx="{{img_idx}}"  bindtap="previewImage" />
+                  </block>
+                </view>
+              </block> <!-- 消息中的图片展示 -->
+              <block wx:else>
+                  <view class="notify" hidden="{{activeIndex != idx}}">
+                    <rich-text nodes="{{item[1]}}"></rich-text>
+                  </view>
+              </block>
+            </block>
+          </block>
+        </view>
+      </block>
+      <!-- 没有notify的话就不用渲染导航 -->
+
+    </view>
+  </view>
+</view>
+
+<view class="container">
+  <view class="page-body">
+    <view class="page-section">
+      <view class="page-content" bindtouchmove="hideNotify">
+        <rich-text nodes="{{htmlSnip}}"></rich-text>
+      </view>
+    </view>
+  </view>
+<!-- 下面是评论区 -->
+  <view class="weui-panel" id="bottom" style='width:100%'>
+    <block wx:if="{{comments.length !== 0}}">
+      <view class="msg_content">
+        <view wx:for="{{comments}}" wx:for-index="index">
+          <view class="msg_item_box">
+            <view class="msg_left_box">
+              <image class="userinfo-avatar" src="{{item.root.avatarUrl}}" />
+            </view>
+            <view class="msg_right_box">
+              <view class="">
+                <view class="name">{{item.root.name}}</view>
+                <view style="float:right;display:flex">
+                  <button class="bindUserInfoButton" open-type="getUserInfo" data-comment_id="{{item.root.comment_id}}" data-callback="approve" bindgetuserinfo="bindGetUserInfo">
+                    <image style="height:50rpx;width:50rpx;" src="/image/approve.png" />
+                  </button>
+                  <view>{{item.root.approve}}</view>
+                </view>
+              </view>
+              <view class="msg_content">
+                {{item.root.content}}
+                <block wx:if="{{item.root.open_id === userInfo.openId}}">
+                  <view bindtap="modify_comment" data-comment="{{item.root}}" style="display:inline">
+                    (
+                    <image style="height:25rpx;width:25rpx;" src="/image/pen.png" />
+                    修改)
+                  </view>
+                </block>
+              </view>
+              <view class="msg_pub_time">
+                {{item.root.pubtime}}
+                <button class="bindUserInfoButton" open-type="getUserInfo" data-statu="open" data-comment="{{item.root}}" data-callback="reply" bindgetuserinfo="bindGetUserInfo">
+                  回复TA
+                </button>
+              </view>
+              <view style="width:100%;display:flex;margin:20rpx 0 20rpx 0;">
+                <!-- 子评论 -->
+                <block wx:if="{{item.sons.length !== 0}}">
+                  <view style="width:100%;background:#ececec;padding:5rpx">
+                    <view style="position:static">
+                      <block wx:for="{{item.sons}}" wx:for-index='idx'>
+                        <view style="display:block">
+                          <view class="comment_opera_box">
+                            <view class="name">
+                              {{item.name}}
+                              <block wx:if="{{item.talkTo !== ''}}">@{{item.talkTo}}:</block>
+                            </view>
+                            <button class="bindUserInfoButton" style='background:#ececec;' open-type="getUserInfo" data-comment_id="{{item.comment_id}}" data-callback="approve" bindgetuserinfo="bindGetUserInfo">
+                              <image style="height:50rpx;width:50rpx;" src="/image/approve.png" />
+                              <view style="display:inline;position:relative;bottom:12rpx">
+                                {{item.approve}}
+                              </view>
+                            </button>
+                            <button class="bindUserInfoButton" style="background:#ececec" data-comment="{{item}}" open-type="getUserInfo" data-callback="reply" bindgetuserinfo="bindGetUserInfo">
+                              回复TA
+                            </button>
+                          </view>
+                          <view class="msg_content" style="margin:2rpx">
+                            {{item.content}}
+                            <block wx:if="{{item.open_id === userInfo.openId}}">
+                              <view bindtap="modify_comment" data-comment="{{item}}" style="display:inline">
+                                (
+                                <image style="height:25rpx;width:25rpx;" src="/image/pen.png" />
+                                修改)
+                              </view>
+                            </block>
+                          </view>
+                        </view>
+                      </block>
+                    </view>
+                  </view>
+                </block>
+                <!-- 子评论end -->
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+    <block wx:else>
+      <image mode='widthFix' style="" src="https://community-1252192276.cos.ap-chengdu.myqcloud.com/material/%E6%B2%99%E5%8F%91.png" />
+    </block>
+  </view>
+  <!-- 评论区结束 -->
+  <view style='padding:40rpx'></view>
+
+  <!-- 回顶部 -->
+  <view class="btn-area" style='position:fixed;bottom:120rpx;right:0rpx' bindtap="scrollToTop">
+    <image src="/image/gotop.png" style='height:80rpx;width:80rpx;position:relative;top:25rpx' />
+    <view type="primary" style='position:relative;left:18rpx;font-size:24rpx'>回顶</view>
+  </view>
+  <view class="btn-area" style='position:fixed;bottom:120rpx;left:0rpx' bindtap="ScrollToBottom">
+    <image src="/image/bottom.png" style='height:80rpx;width:80rpx;position:relative;top:25rpx' />
+    <view type="primary" style='position:relative;left:18rpx;font-size:24rpx'>底部</view>
+  </view>
+  <!-- 回顶部 -->
+
+  <view style='padding:60rpx'></view>
+
+  <!-- 下面是底部导航 -->
+
+  <view class="bottomnav">
+
+    <view class="navitem" bindtap="gohome">
+      <image class="navicon" src="/image/home.png" />
+      <view class="navtext">首页</view>
+    </view>
+    <view class="navitem">
+      <button open-type="getUserInfo" class="sharebutton" data-statu="open" data-comment="new" data-callback="new_comment" bindgetuserinfo='bindGetUserInfo'>
+        <image class="navicon" style='float:left;' src="/image/comment.png" />
+        <view class="navtext" style='position:absolute;padding:25rpx 0 0 0;margin:15rpx 0 0 0'>评论</view>
+      </button>
+    </view>
+    <view class="navitem">
+      <button open-type="getUserInfo" class="sharebutton" bindgetuserinfo='collectFile'>
+        <image class="navicon" style='float:left;' src="{{collect.src}}" />
+        <view class="navtext" style='position:absolute;padding:25rpx 0 0 0;margin:15rpx 0 0 0'>{{collect.text}}</view>
+      </button>
+    </view>
+    <view class="navitem">
+      <button class="sharebutton" open-type="share">
+        <image class="navicon" style='float:left;' src="/image/share.png" />
+        <view class="navtext" style='position:absolute;padding:25rpx 0 0 0;margin:15rpx 0 0 0'>分享</view>
+      </button>
+    </view>
+    <!-- <view class="navitem" bindtap='collectFile'>
+      <image class="navicon" src="/image/book2.png" />
+      <view class="navtext">参考资料</view>
+    </view> -->
+  </view>
+  <!-- 底部导航  -->
+  <form bindsubmit="formSubmit" bindreset="formReset">
+    <view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+    <view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+      <view class="drawer_content" style="height:250rpx">
+        <view class="top grid" style="margin:8rpx">
+          <input class="input_base input_h60 col-1" style="width:100%" name="replyWords" placeholder="{{current_comment.name}}"></input>
+        </view>
+      </view>
+      <view>{{tip}}</view>
+      <view class="words_button" style="position:relative;bottom:10rpx;">
+        <button class="btn_ok" formType="submit" type="primary">确定</button>
+        <button class="btn_ok" bindtap="powerDrawer" data-statu="close" type="primary">取消</button>
+      </view>
+    </view>
+  </form>
+
+</view>

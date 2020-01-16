@@ -1,0 +1,71 @@
+<!--pages/user/user.wxml-->
+<!--index.wxml-->
+<view class="container">
+  <!-- 用户登录测试 -->
+  <view class="userinfo">
+    <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : './user-unlogin.png'}}" background-size="cover"></image>
+    <view>
+      <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">点击登录</button>
+      <block wx:else>
+      <text class="userinfo-nickname" >{{userInfo.nickName}}</text>
+      <image style="width:60rpx;height:60rpx;position:relative;left:230rpx" src="/image/refresh.png" bindtap="refresh"/> 
+      <navigator style="display:inline;position:absolute;right:30rpx" url="../houtai/houtaiindex?role={{is_adm.role}}">
+      <button  size="mini" hidden="{{hiddenEnter}}" >商家登录</button>
+      </navigator>
+      </block>
+    </view>
+  </view>
+
+ <view class="weui-flex">
+  <view class="weui-flex__item" style='display:inline;' data-idx="0"  bindtap='go_order'><image class="order_image" src="/image/pay.png"/>待支付   </view>
+  <view class="weui-flex__item" style='display:inline;' data-idx="1"  bindtap='go_order'><image class="order_image" src="/image/sign.png"/>待收货   </view>
+  <view class="weui-flex__item" style='display:inline;' data-idx="2"  bindtap='go_order'><image class="order_image" src="/image/kuaidi.png"/>全部订单 </view>
+</view> 
+
+  <view class="weui-flex">
+    <view class="uploader-text" bindtap="setUserFiles">
+      <text style="font-size:35rpx;margin:auto">我收藏的考试</text>
+    </view>
+    <view class="uploader-text" bindtap="setUserElecbooks">
+      <text style="font-size:35rpx;margin:auto">已购买的电子书</text>
+    </view>
+  </view>
+<view class="weui-panel" style="display:static;width:100%" hidden="{{hideEleList}}">
+<view wx:for="{{elecbookList}}" style="margin:20rpx">
+<navigator url="/pages/elec_book/elec_book?goods_id={{item.goods_id}}&open_id={{userInfo.openId}}">
+{{item.name}}
+</navigator>
+</view>
+</view>
+  <view class="weui-panel" style='display:static' hidden="{{hidecollect}}">
+    <view class="weui-panel__bd">
+      <view wx:for="{{userFiles}}">
+        <view class="weui-media-box weui-media-box_small-appmsg" style="font-size:15px;padding:0rpx;margin:2rpx">
+          <view class="weui-cells weui-cells_in-small-appmsg">
+            <navigator url="../webview/webview?fileid={{item.fileinfo.fileid}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+              <view class="weui-cell__bd weui-cell_primary" style="font-size:15px;padding:0 10px 0 0;margin:2rpx">
+                <view>
+                  {{item.fileinfo.filetitle}}
+                </view>
+                <!-- 渲染时间事件 -->
+                <view wx:for="{{item.eventtime}}">
+                    <view style='color:white;background:red;display:inline;float:left;padding:2px 4px 2px 4px;margin:1rpx 5rpx 0 0; font-size:12px;'> {{item.event}} </view>
+                </view>
+                <!-- 渲染时间事件 -->
+              </view>
+            </navigator>
+            <!--image class="delete-image" src="/image/delete.png" data-fileId="{{ item.fileinfo.fileid }}" bindtap="deleteFile" /-->
+            <image class="delete-image" src="/image/delete.png" data-index="{{ index }}" bindtap="deleteFile" />
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="weui-footer">
+    <view class="weui-footer__links">
+      <navigator url="/pages/qxnbd/qxnbd" class="weui-footer__link">PowerBy七星诺必达</navigator>
+    </view>
+    <view class="weui-footer__text">Copyright © www.qixingnbd.com</view>
+  </view>
+</view>

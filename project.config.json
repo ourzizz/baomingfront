@@ -1,0 +1,196 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": false,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true,
+		"autoAudits": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.2.4",
+	"appid": "wxa8510d55a9cbdc9c",
+	"projectname": "%E8%80%83%E8%AF%95%E4%B8%AD%E5%BF%83",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"scripts": {},
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 19,
+			"list": [
+				{
+					"id": 0,
+					"name": "xx",
+					"pathName": "pages/webview/webview",
+					"query": "fileid=9"
+				},
+				{
+					"id": -1,
+					"name": "user",
+					"pathName": "pages/user/user",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "filetime",
+					"pathName": "pages/filetime/filetime",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "zjpage",
+					"pathName": "pages/zhuanji/zhuanji",
+					"query": ""
+				},
+				{
+					"id": 4,
+					"name": "二维码访问",
+					"pathName": "pages/webview/webview",
+					"query": "fileid=87",
+					"scene": "1012"
+				},
+				{
+					"id": -1,
+					"name": "bookstore",
+					"pathName": "pages/bookstore/bookstore",
+					"query": "fileid=87",
+					"scene": "1012"
+				},
+				{
+					"id": 6,
+					"name": "shopcart",
+					"pathName": "pages/shopcart/shopcart",
+					"query": "open_id=o9pU65LTYEE8tVWQR_yClRc1466k"
+				},
+				{
+					"id": 7,
+					"name": "useraddress",
+					"pathName": "pages/user_address/user_address",
+					"query": "open_id=o9pU65LTYEE8tVWQR_yClRc1466k"
+				},
+				{
+					"id": -1,
+					"name": "shopcart",
+					"pathName": "pages/settlement/settlement",
+					"query": "open_id=o9pU65LTYEE8tVWQR_yClRc1466k"
+				},
+				{
+					"id": 9,
+					"name": "pays",
+					"pathName": "pages/paysuccess/paysuccess",
+					"query": "order_id=1549039676q0PEV"
+				},
+				{
+					"id": 10,
+					"name": "pays",
+					"pathName": "pages/paysuccess/paysuccess",
+					"query": "order_id=1576999865aPRof",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "failpay",
+					"pathName": "pages/payfail/payfail",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 12,
+					"name": "orders",
+					"pathName": "pages/orders/orders",
+					"query": "open_id=opexV46WZFz9Is4xAI2zZWc4YiQE&idx=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "qxnbd",
+					"pathName": "pages/qxnbd/qxnbd",
+					"query": "open_id=opexV46WZFz9Is4xAI2zZWc4YiQE&idx=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "success",
+					"pathName": "pages/paysuccess/paysuccess",
+					"query": "open_id=opexV46WZFz9Is4xAI2zZWc4YiQE&idx=1",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "manageOrder",
+					"pathName": "pages/manageOrder/manageOrder",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "tunnel",
+					"pathName": "pages/sellerlogin/sellerlogin",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "chat",
+					"pathName": "pages/chat/chat",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "refund",
+					"pathName": "pages/refund/refund",
+					"query": "order_id=1549039676q0PEV",
+					"scene": null
+				},
+				{
+					"id": 19,
+					"name": "webview",
+					"pathName": "pages/webview/webview",
+					"query": "fileid=130",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "elecbook",
+					"pathName": "pages/elec_book/elec_book",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 21,
+					"name": "pages/baoming/kaoshengInfo/kaoshengInfo",
+					"pathName": "pages/baoming/kaoshengInfo/kaoshengInfo",
+					"query": "openId=opexV4zhvLlfWOeMuUifxymsoCqA&ksid=70",
+					"scene": null
+				}
+			]
+		}
+	}
+}
