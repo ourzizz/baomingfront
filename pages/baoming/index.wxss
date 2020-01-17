@@ -2,6 +2,9 @@
 /* pages/telphone/telphone.wxss */
 @import '/weui.wxss';
 @import '/pages/user/user.wxss';
+page{
+    background: rgb(238, 229, 229);
+}
 .placeholder{
     /*posti*/
     margin: 5px;
@@ -12,4 +15,15 @@
     line-height: 2.3em;
     /*color: ;*/
 }
-
+.item-box{
+    margin: 10rpx;
+    background-color: white;
+}
+.bottom-box{
+    display: flex;
+    padding-bottom: 15rpx;
+}
+.weui-navbar
+{
+    background: white;
+}

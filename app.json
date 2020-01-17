@@ -22,7 +22,8 @@
     "pages/houtai/pubmsg/pubmsg",
     "pages/baoming/index",
     "pages/baoming/kaoshengInfo/kaoshengInfo",
-    "pages/baoming/chengji/chengji"
+    "pages/baoming/chengji/chengji",
+    "pages/baoming/showinfo/showinfo"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
@@ -37,35 +38,18 @@
     "borderStyle": "black",
     "list": [
       {
-        "selectedIconPath": "image/homeed.png",
-        "iconPath": "image/home.png",
-        "pagePath": "pages/index/index",
-        "text": "首页"
-      },
-      {
         "selectedIconPath": "image/upload1.png",
         "iconPath": "image/upload2.png",
         "pagePath": "pages/baoming/index",
         "text": "信息填报"
       },
       {
-        "selectedIconPath": "image/book2.png",
-        "iconPath": "image/book1.png",
-        "pagePath": "pages/bookstore/bookstore",
-        "text": "学习资料"
-      },
-      {
-        "selectedIconPath": "image/shop_cart.png",
-        "iconPath": "image/shop_cart2.png",
-        "pagePath": "pages/shopcart/shopcart",
-        "text": "购物车"
-      },
-      {
-        "selectedIconPath": "image/usered.png",
-        "iconPath": "image/user.png",
-        "pagePath": "pages/user/user",
-        "text": "我的"
+        "selectedIconPath": "image/homeed.png",
+        "iconPath": "image/home.png",
+        "pagePath": "pages/index/index",
+        "text": "考试文件"
       }
+     
     ]
   },
   "sitemapLocation": "sitemap.json"

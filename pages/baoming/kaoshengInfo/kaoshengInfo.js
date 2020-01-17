@@ -9,21 +9,26 @@ var cosPath = "http://bjks-1252192276.cos.ap-chengdu.myqcloud.com"
 var app = getApp()
 Page({
     data: {
-        filltable: [
+        filltable: [ //下一步这里要做成数据库 直接配置生成
             { key: 'name', onoff:'on', lable: '姓名', value: '',placeholder:'不可修改字段' },
             { key: 'sfzid', onoff:'on', lable: '身份证号', value: '', placeholder:'不可修改字段'},
+            { key: 'politics', onoff:'on', lable: '政治面貌', value: '', placeholder:'中共党员、中共预备党员、共青团员、群众；'},
             { key: 'birthday', onoff:'on', lable: '出生日期', value: '',placeholder:'例19900821' },
             { key: 'sex', onoff:'on', lable: '性别', value: '',placeholder:'男或女'},
             { key: 'telphone', onoff:'on', lable: '电话', value: '', placeholder:'联系电话'},
+            { key: 'email', onoff:'on', lable: '电子邮箱', value: '', placeholder:'邮箱'},
+            { key: 'address', onoff:'on', lable: '家庭住址', value: '', placeholder:'家庭住址'},
+            { key: 'marital', onoff:'on', lable: '婚姻状况', value: '', placeholder:'未婚、已婚、离异、丧偶'},
             { key: 'degree', onoff:'on', lable: '学位', value: '',placeholder:'学位'},
             { key: 'education', onoff:'on', lable: '学历', value: '',placeholder:'学历'},
+            { key: 'studentPlace', onoff:'on', lable: '生源地', value: '',placeholder:'生源地'},
             { key: 'school', onoff:'on', lable: '毕业学校', value: '',placeholder:'毕业学校' },
             { key: 'graduationDate', onoff:'on', lable: '毕业日期', value: '',placeholder:'毕业时间' },
             { key: 'major', onoff:'on', lable: '所学专业', value: '',placeholder:'须与毕业证一致' },
             { key: 'danwei', onoff:'on', lable: '工作单位', value: '',placeholder:'工作单位' },
             { key: 'danweiagree', onoff:'on', lable: '是否同意报考', value: '',placeholder:'填是否' },
             { key: 'jobtime', onoff:'on', lable: '工作时间', value: '',placeholder:'参加工作时间' },
-            { key: 'placeOfBirth', onoff:'on', lable: '户籍地', value: '',placeholder:'出生地' },
+            { key: 'placeOfBirth', onoff:'on', lable: '户籍地', value: '',placeholder:'户籍地' },
             { key: 'nationality', onoff:'on', lable: '民族', value: '',placeholder:'民族' },
             { key: 'certificate', onoff:'on', lable: '资格证书', value: '',placeholder:'资格证书' },
             { key: 'resume', onoff:'on', lable: '简历', value: '',placeholder:'简历从高中开始填写' }
@@ -73,8 +78,8 @@ Page({
                 if(result.data.kaoshengInfo == null){//考生没有填写过任何信息
                     that.setData({
                         kaosheng_flg:"new",
-                        kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
-                        // kaoshengInfo:{photoUrl:'null',ksid:ksid},
+                        // kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
+                        kaoshengInfo:{photoUrl:'null',ksid:ksid},
                     }) 
                 }else{//有考生信息
                     that.data.imageName = result.data.kaoshengInfo.photoUrl.replace(cosPath,'')
@@ -296,6 +301,7 @@ Page({
         var path = []
         var idx = this.data.activeIndex
         var code = e.detail.value
+        var that = this
         this.getPath(code)
         this.data.tree_list.forEach(element => {
             if(element.code !== code){
@@ -306,10 +312,22 @@ Page({
             this.init_tree_list()
         });
         this.data.baomingInfo.code = code
+        this.data.baomingInfo.zhiweiPath = this.data.zhiweiPath.toString(),
         this.setData({
             tree_list:this.data.tree_list,
             zhiweiPath:this.data.zhiweiPath,
         })
+        wx.showModal({
+            title: '职位确认',
+            content: this.data.zhiweiPath.toString(),
+            success(res) {
+                if (res.confirm) {
+                    that.submit_zhiwei()
+                } else if (res.cancel) {
+                    return
+                }
+            }
+        }) //}}}
     },
 
     getPath:function(code){ //"1240202201"
@@ -359,59 +377,7 @@ Page({
 
     input_change: function (e) {
         var kaoshengInfo = this.data.kaoshengInfo
-        switch (e.currentTarget.dataset.key) {
-            case 'graduationDate':
-                kaoshengInfo.graduationDate = e.detail.value;
-                break;
-            case 'birthday':
-                kaoshengInfo.birthday = e.detail.value;
-                break;
-            case 'sfzid':
-                kaoshengInfo.sfzid = e.detail.value;
-                break;
-            case 'name':
-                kaoshengInfo.name = e.detail.value
-                break;
-            case 'degree':
-                kaoshengInfo.degree = e.detail.value
-                break;
-            case 'education':
-                kaoshengInfo.education = e.detail.value
-                break;
-            case 'school':
-                kaoshengInfo.school = e.detail.value
-                break;
-            case 'sex':
-                kaoshengInfo.sex = e.detail.value
-                break;
-            case 'telphone':
-                kaoshengInfo.telphone = e.detail.value
-                break;
-            case 'major':
-                kaoshengInfo.major = e.detail.value
-                break;
-            case 'danwei':
-                kaoshengInfo.danwei = e.detail.value
-                break;
-            case 'danweiagree':
-                kaoshengInfo.danweiagree = e.detail.value
-                break;
-            case 'jobtime':
-                kaoshengInfo.jobtime = e.detail.value
-                break;
-            case 'placeOfBirth':
-                kaoshengInfo.placeOfBirth = e.detail.value
-                break;
-            case 'nationality':
-                kaoshengInfo.nationality = e.detail.value
-                break;
-            case 'certificate':
-                kaoshengInfo.certificate = e.detail.value
-                break;
-            case 'resume':
-                kaoshengInfo.resume = e.detail.value
-                break;
-        }
+        this.data.kaoshengInfo[e.currentTarget.dataset.key] = e.detail.value;
     },
 
     check_message: function () {//{{{
@@ -458,6 +424,7 @@ Page({
             bmtemp.open_id = that.data.baomingInfo.open_id
             bmtemp.ksid = that.data.baomingInfo.ksid
             bmtemp.code = that.data.baomingInfo.code
+            bmtemp.zhiweiPath = that.data.baomingInfo.zhiweiPath
             qcloud.request({
                 url: `${config.service.host}/baoming/kaoshengInfo/baoming`,
                 data: {
@@ -538,13 +505,25 @@ Page({
                         url: `${config.service.host}/baoming/kaoshengInfo/store_kaosheng`,
                         data: {
                             kaoshengInfo: JSON.stringify(kaoshengInfo),
+                            ksid:that.data.options.ksid
                         },
                         method: 'POST',
                         header: { 'content-type': 'application/x-www-form-urlencoded' },
                         success(result) {
                             wx.hideToast()
-                            // that.data.operas[]
-                            that.init_kaoshengInfo(that.data.options.openId, that.data.options.ksid)
+                            if(result.data.kaoshengInfo === 'null'){
+                                wx.showModal({
+                                    title: '重复报名',
+                                    content: '同一姓名、身份证号码只能报名一次',
+                                }) //}}}
+                            }else{
+                                that.data.operas[1].onoff = true
+                                that.setData({
+                                    kaoshengInfo:result.data.kaoshengInfo,
+                                    operas:that.data.operas
+                                })
+                            }
+                            that.init_fillTable(result.data.kaoshengInfo)
                         },
                         fail(error) {
                         }

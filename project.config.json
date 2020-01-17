@@ -189,6 +189,13 @@
 					"pathName": "pages/baoming/kaoshengInfo/kaoshengInfo",
 					"query": "openId=opexV4zhvLlfWOeMuUifxymsoCqA&ksid=70",
 					"scene": null
+				},
+				{
+					"id": 22,
+					"name": "pages/baoming/index",
+					"pathName": "pages/baoming/index",
+					"query": "",
+					"scene": null
 				}
 			]
 		}

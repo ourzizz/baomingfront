@@ -1,0 +1,2 @@
+/* pages/baoming/showinfo/showinfo.wxss */
+@import "../kaoshengInfo/kaoshengInfo.wxss";

@@ -102,5 +102,14 @@ Page({
         wx.navigateTo({
             url: '/pages/baoming/kaoshengInfo/kaoshengInfo?openId='+openId+'&ksid='+ksid+'&configId='+configid
         })
+    },
+    goShowInfo: function (event) {
+        var ksid = event.currentTarget.dataset.ks_id
+        var configid = event.currentTarget.dataset.configid
+        var openId = this.data.userInfo.openId
+        wx.navigateTo({
+            url: '/pages/baoming/showinfo/showinfo?openId='+openId+'&ksid='+ksid+'&configId='+configid
+        })
+
     }
 })

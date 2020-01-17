@@ -72,10 +72,10 @@
 			<view wx:else>
 				<scroll-view wx:if="{{operas[2].onoff == true}}" style="height:100%;" scroll-y="true">
 					<view>报名序号：{{baomingInfo.bmxh}}</view>
-					<view wx:if="{{zhiweiPath.length > 0}}">
-						您选择的职位是:
-						<view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
-							{{item}}
+					<view style="font-size:30rpx" wx:if="{{zhiweiPath.length > 0}}">
+						您选择的职位是:(选定后必须点保存)
+						<view style="color:red" wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
+							->{{item}}
 						</view>
 					</view>
 					<radio-group bindchange="radioChange">

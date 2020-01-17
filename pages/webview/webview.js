@@ -139,37 +139,13 @@ Page({
         var that = this;
         let fileId = options.fileid
         this.data.fileId = fileId
-        this.renderCollect()
-        this.get_comments(fileId)
-        const session = qcloud.Session.get()
-        if (session) { //有session就能拿到open_id,在bindGetUserInfo中调用会有不明原因的阻塞
-            if (this.data.userApprovedCommentId.length === 0) { //点赞列表为空，就需要初始化
-                this.setData({
-                    userInfo: session.userinfo
-                })
-                this.init_approve()
-            }
-        }
 
         util.showBusy('请求中...')
         qcloud.request({
-            url: `${config.service.host}/weapp/demo/get_filepage_json/` + this.data.fileId,
+            url: `${config.service.host}/kaoshifile/get_file/` + this.data.fileId,
             success(result) {
                 util.showSuccess('请求成功完成')
-                that.initTabs(result.data)
-                //上一步获取数据并初始化navmap后需要渲染nav
-                wx.getSystemInfo({ //设置导航栏平分
-                    success: function(res) {
-                        that.setData({
-                            tabs: that.data.tabs,
-                            sliderLeft: (res.windowWidth / that.data.tabs.length - sliderWidth) / 2,
-                            sliderOffset: res.windowWidth / that.data.tabs.length * that.data.activeIndex
-                        });
-                    }
-                });
-                //上一步获取数据并初始化navmap后需要渲染nav
-
-                that.data.htmlSnip = result.data.article[0].article
+                that.data.htmlSnip = result.data.article
                 that.setData({
                     htmlSnip: that.data.htmlSnip
                 })
