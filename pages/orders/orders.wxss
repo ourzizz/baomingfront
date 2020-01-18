@@ -1,3 +1,0 @@
-/* pages/orders/orders.wxss */
-@import '/weui.wxss';
-@import '/common/wxss/order.wxss'

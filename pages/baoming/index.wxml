@@ -11,6 +11,8 @@
         </block>
       </view>
     </view>
+        <view style="margin:20rpx"> 考试填报数据，必须先进行授权，登录完成后即可填报，一个微信号只能一人报名，不可代报，同身份证号码、同姓名、同一考试只能报名一次, 考生必须对自己填报的信息错填漏填等错误负责。
+        </view>
   </view>
   <view wx:else class="page__bd">
     <view class="weui-tab">

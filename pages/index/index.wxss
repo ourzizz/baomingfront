@@ -184,3 +184,10 @@ page {
   align-items: center;
   font-size: 28rpx;
 }
+
+.selected{
+  width:30rpx;
+  height:30rpx;
+  position:absolute;
+  right:0
+}

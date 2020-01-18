@@ -110,6 +110,12 @@ Page({
         wx.navigateTo({
             url: '/pages/baoming/showinfo/showinfo?openId='+openId+'&ksid='+ksid+'&configId='+configid
         })
+    },
 
+    onShareAppMessage: function () {
+        return {
+            title: '网报数据填报入口',
+            path: 'page/baoming/index/'
+        }
     }
 })

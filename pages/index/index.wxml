@@ -53,21 +53,21 @@
       <block wx:if="{{ typeid == 2 }}">
         <view class="item_list" wx:for="{{navlist}}" wx:key="{{navlist}}" wx:for-index="idx">
           <button class="weui-btn mini-btn item_button" data-idx="{{idx}}" data-xianquid="{{ item.id }}" bindtap="setSydwFiles">{{item.countyname}}
-            <image style="width:60rpx;height:60rpx;position:absolute;right:0" hidden="{{activeIndex != idx}}" src="/image/selected.png" />
+            <image class="selected"  hidden="{{activeIndex != idx}}" src="/image/selected.png" />
           </button>
         </view>
       </block>
       <block wx:elif="{{ typeid == 3 }}">
         <view class="item_list" wx:for="{{navlist}}" wx:key="{{navlist}}" wx:for-index="idx">
           <button class="item_button" data-idx="{{idx}}" data-ksid="{{ item.ksid }}" bindtap="setZhuanjiFiles">{{item.ksname}}
-            <image style="width:60rpx;height:60rpx;position:absolute;right:0" hidden="{{activeIndex != idx}}" src="/image/selected.png" />
+            <image class="selected"  hidden="{{activeIndex != idx}}" src="/image/selected.png" />
           </button>
         </view>
       </block>
       <block wx:elif="{{ typeid == 4 }}">
         <view class="item_list" wx:for="{{navlist}}"  wx:key="{{navlist}}" wx:for-index="idx">
           <button class="weui-btn mini-btn item_button" data-idx="{{idx}}" data-xianquid="{{ item.id }}" bindtap="setShFiles">{{item.countyname}}
-            <image style="width:60rpx;height:60rpx;position:absolute;right:0" hidden="{{activeIndex != idx}}" src="/image/selected.png" />
+            <image class="selected" hidden="{{activeIndex != idx}}" src="/image/selected.png" />
           </button>
         </view>
       </block>
@@ -92,7 +92,7 @@
                   <!-- 事件渲染 -->
                 </view>
                 <view class="weui-media-box__info">
-                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">发布于:{{item.pubtime}} 浏览次数:{{item.readtime}}
+                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">发布于:{{item.pubtime}} 
                   </view>
                 </view>
               </view>
@@ -103,10 +103,10 @@
     </view>
   </view>
 
-  <view class="weui-footer">
+  <!-- <view class="weui-footer">
     <view class="weui-footer__links">
       <navigator url="/pages/qxnbd/qxnbd" class="weui-footer__link">PowerBy七星诺必达</navigator>
     </view>
     <view class="weui-footer__text">Copyright © www.qixingnbd.com</view>
-  </view>
+  </view> -->
 </view>

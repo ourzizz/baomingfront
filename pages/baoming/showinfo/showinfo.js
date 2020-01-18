@@ -71,8 +71,7 @@ Page({
                 if(result.data.kaoshengInfo == null){//考生没有填写过任何信息
                     that.setData({
                         kaosheng_flg:"new",
-                        kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
-                        // kaoshengInfo:{photoUrl:'null',ksid:ksid},
+                        kaoshengInfo:{photoUrl:'null',ksid:ksid},
                     }) 
                 }else{//有考生信息
                     that.data.imageName = result.data.kaoshengInfo.photoUrl.replace(cosPath,'')

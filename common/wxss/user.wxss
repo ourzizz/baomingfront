@@ -1,5 +1,3 @@
-/* pages/user/user.wxss */
-/**index.wxss**/
 @import '/weui.wxss';
 @import '/pages/index/index.wxss';
 page {
@@ -8,7 +6,9 @@ page {
     flex-direction: column;
     justify-content: flex-start;
 }
-
+.msg_right_box{
+width:100%;
+}
 .userinfo, .uploader, .tunnel {
     margin-top: 40rpx;
     height: 140rpx;
@@ -154,6 +154,7 @@ background:#fff;
 width:100%;
 margin:10rpx;
 }
+
 .view_box{
 display:flex;                    
  justify-content: center;        
@@ -166,4 +167,6 @@ display:flex;
     position:relative;
     left:10rpx;
 }
-
+.weui-panel{
+width:100%
+}

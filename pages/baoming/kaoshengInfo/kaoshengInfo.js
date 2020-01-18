@@ -634,5 +634,7 @@ Page({
         this.setData({
             step:step
         })
-    }
+    },
+
+  
 })

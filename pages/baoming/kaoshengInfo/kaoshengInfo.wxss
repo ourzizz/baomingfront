@@ -1,6 +1,8 @@
 /* pages/baoming/kaoshengInfo/kaoshengInfo.wxss */
 @import "/common/wxss/writeMsg.wxss";
-@import "/pages/bookstore/bookstore.wxss";
+page{
+  height: 100%;
+  }
 .left_box{
   top: 0rpx;
 }
@@ -40,3 +42,41 @@
   display: flex;
   width: 100%;
 }
+.nav_2_item {/*{{{*/
+  /*二层目录的样式*/
+  padding: 0 0 5rpx 0;
+  padding-top:15rpx;
+  font-size: 30rpx;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  height:60rpx
+}
+.container{
+height: 100%;
+}
+.left_box {
+  position: fixed;
+  width: 25%;
+  left: 0;
+  height:100%;
+}
+
+.selected{
+/*background:rgb(110, 189, 209);*/
+background: rgb(238, 229, 229);
+/*color:white;*/
+}
+
+.right_box {
+  position: fixed;
+  width: 75%;
+  right: 0;
+  height:100%;
+}
+
+.spring{
+height:90rpx;
+}
+

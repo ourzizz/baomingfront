@@ -1,25 +1,8 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/bookstore/bookstore",
     "pages/webview/webview",
     "pages/filetime/filetime",
-    "pages/user/user",
-    "pages/shopcart/shopcart",
-    "pages/user_address/user_address",
-    "pages/settlement/settlement",
-    "pages/paysuccess/paysuccess",
-    "pages/payfail/payfail",
-    "pages/orders/orders",
-    "pages/qxnbd/qxnbd",
-    "pages/refund/refund",
-    "pages/sellerlogin/sellerlogin",
-    "pages/manageOrder/manageOrder",
-    "pages/chat/chat",
-    "pages/houtai/manageOrder/manageOrder",
-    "pages/houtai/houtaiindex",
-    "pages/houtai/classManage/classManage",
-    "pages/houtai/pubmsg/pubmsg",
     "pages/baoming/index",
     "pages/baoming/kaoshengInfo/kaoshengInfo",
     "pages/baoming/chengji/chengji",
@@ -38,18 +21,17 @@
     "borderStyle": "black",
     "list": [
       {
-        "selectedIconPath": "image/upload1.png",
-        "iconPath": "image/upload2.png",
-        "pagePath": "pages/baoming/index",
-        "text": "信息填报"
-      },
-      {
         "selectedIconPath": "image/homeed.png",
         "iconPath": "image/home.png",
         "pagePath": "pages/index/index",
         "text": "考试文件"
+      },
+      {
+        "selectedIconPath": "image/upload1.png",
+        "iconPath": "image/upload2.png",
+        "pagePath": "pages/baoming/index",
+        "text": "信息填报"
       }
-     
     ]
   },
   "sitemapLocation": "sitemap.json"

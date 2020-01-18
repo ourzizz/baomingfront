@@ -1,6 +1,9 @@
 <!-- pages/baoming/showinfo/showinfo.wxml -->
-<scroll-view  style="height:100%;" scroll-y="true">
-    <view class="weui">
+<view wx:if="{{kaoshengInfo.photoUrl == 'null'}}">
+    <view  style="margin:20rpx">您尚未填写报名信息,请先在填报页面录入信息</view>
+</view>
+<scroll-view wx:else  style="height:100%;" scroll-y="true">
+    <view  class="weui">
         <view class="weui-uploader">
             <view class="weui-uploader__files" style="position:static">
                 <view class="weui-uploader__file">

@@ -1,7 +1,7 @@
 /* pages/baoming/index.wxss */
 /* pages/telphone/telphone.wxss */
 @import '/weui.wxss';
-@import '/pages/user/user.wxss';
+@import '/common/wxss/user.wxss';
 page{
     background: rgb(238, 229, 229);
 }

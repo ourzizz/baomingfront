@@ -8,9 +8,9 @@ App({
     },
     globalData: {
         info_class:[],
-        count_cart: 0,//购物车数量
+        count_cart: 0,//数量
         edit_class_id:"",
-        feeLine: 30,//商家起送金额
+        feeLine: 30,//起送
         runFee: 2    //跑腿费用
       },
       raise_cart_sum: function(count) {

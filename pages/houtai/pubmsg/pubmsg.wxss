@@ -1,3 +1,0 @@
-/* pages/houtai/pubmsg/pubmsg.wxss */
-@import '/weui.wxss';
-@import '/common/wxss/writeMsg.wxss'
