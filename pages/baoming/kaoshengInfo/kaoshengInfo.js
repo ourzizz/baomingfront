@@ -1,5 +1,6 @@
 /**
  * 考生信息填写点击保存后姓名和身份证就变成不可修改字段
+ * 代码长度增加后耦合性非常头疼
  */
 var qcloud = require('../../../vendor/wafer2-client-sdk/index')
 var config = require('../../../config')
@@ -39,11 +40,11 @@ Page({
         ]
     },
 
-    init_kaoshengInfo:function(openId,ksid){
+    init_page:function(openId,ksid){
         let that = this
         util.showBusy("下载数据中")
         qcloud.request({
-            url: `${config.service.host}/baoming/kaoshengInfo/get_kaoshengInfo`,
+            url: `${config.service.host}/baoming/kaoshengInfo/get_kaosheng_kaoshi`,
             data: {
                 open_id:openId,
                 ksid:ksid,
@@ -52,28 +53,10 @@ Page({
             header: { 'content-type':'application/x-www-form-urlencoded' },
             success(result) {
                 wx.hideToast()
-                if(result.data.kaoshengInfo == null){//考生没有填写过任何信息
-                    that.setData({
-                        kaosheng_flg:"new",
-                        // kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
-                        kaoshengInfo:{photoUrl:'null',ksid:ksid},
-                    }) 
-                }else{//有考生信息
-                    that.data.imageName = result.data.kaoshengInfo.photoUrl.replace(cosPath,'')
-                    that.data.operas[1].onoff = true
-                    if(result.data.kaoshengInfo.photoUrl != 'null'){//考生已经上传图片 开放选择职位步骤
-                        that.data.operas[2].onoff = true
-                    }
-                    that.setData({
-                        kaosheng_flg:"edit",
-                        kaoshengInfo:result.data.kaoshengInfo,
-                    }) 
-                }
-                that.init_fillTable(that.data.kaoshengInfo)
-                that.data.kaoshengInfoCopy = JSON.parse(JSON.stringify(result.data.kaoshengInfo));
-                that.setData({
-                    operas:that.data.operas
-                }) 
+                that.init_kaoshengInfo(result.data.kaoshengInfo)
+                that.init_baomingInfo(result.data.baomingInfo)
+                that.init_fillTable(result.data.config,result.data.kaoshengInfo,result.data.filltable)
+                that.init_zhiwei(result.data.zhiwei)
             },
             fail(error) {
                 util.showModel('请求失败', error);
@@ -82,111 +65,106 @@ Page({
         })
     },
 
-    init_baomingInfo:function(openId,ksid){
+    init_kaoshengInfo:function(kaoshengInfo){
         let that = this
-        util.showBusy("下载数据中")
-        qcloud.request({
-            url: `${config.service.host}/baoming/kaoshengInfo/get_baomingInfo`,
-            data: {
-                open_id:openId,
-                ksid:ksid,
-            },
-            method: 'POST',
-            header: { 'content-type':'application/x-www-form-urlencoded' },
-            success(result) {
-                wx.hideToast()
-                if (result.data.baomingInfo === null) {//无报名信息=>考生以往报过其他考试 本考试未报名,报名未确认
-                    result.data.baomingInfo = {open_id:openId,ksid:ksid,code:"",bmconfirm:0}
-                }else{
-                    that.getPath(result.data.baomingInfo.code)
-                    that.data.operas[1].onoff = true //有报名信息证明 填写 照片 职位都完成了 需要打开全部环节
-                    that.data.operas[2].onoff = true 
-                    that.data.operas[3].onoff = true
-                    that.data.operas[4].onoff = true
-                }
-                that.data.baomingInfoCopy = JSON.parse(JSON.stringify(result.data.baomingInfo));
-                that.setData({
-                    zhiweiPath:that.data.zhiweiPath,
-                    baomingInfo:result.data.baomingInfo,
-                    operas:that.data.operas
-                }) 
-            },
-            fail(error) {
-                util.showModel('请求失败', error);
-                console.log('request fail', error);
+        wx.hideToast()
+        if (kaoshengInfo == null) {//考生没有填写过任何信息
+            that.setData({
+                kaosheng_flg: "new",
+                // kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
+                kaoshengInfo: { photoUrl: 'null', ksid: that.data.options.ksid },
+            })
+        } else {//有考生信息
+            that.data.imageName = kaoshengInfo.photoUrl.replace(cosPath, '')
+            that.data.operas[1].onoff = true
+            if (kaoshengInfo.photoUrl != 'null') {//考生已经上传图片 开放选择职位步骤
+                that.data.operas[2].onoff = true
             }
-        })
+            that.setData({
+                kaosheng_flg: "edit",
+                kaoshengInfo: kaoshengInfo,
+            })
+        }
+        that.data.kaoshengInfoCopy = JSON.parse(JSON.stringify(kaoshengInfo));
+        that.setData({
+            operas: that.data.operas
+        }) 
     },
 
-    init_zhiwei:function(ksid){
+    init_baomingInfo: function (baomingInfo) {
         let that = this
-        util.showBusy("下载数据中")
-        qcloud.request({
-            url: `${config.service.host}/baoming/kaoshengInfo/get_zhiwei`,
-            data: {
-                ksid:ksid,
-            },
-            method: 'POST',
-            header: { 'content-type':'application/x-www-form-urlencoded' },
-            success(result) {
-                that.data.tree_list = result.data.zhiwei
-                that.init_tree_list(that.data.tree_list)
-                that.init_baomingInfo(that.data.options.openId, that.data.options.ksid) 
-                that.setData({
-                    tree_list:that.data.tree_list,
-                    zhiweiPath:that.data.zhiweiPath
-                })
-            },
-            fail(error) {
-                util.showModel('请求失败', error);
-                console.log('request fail', error);
-            }
-        })
+        wx.hideToast()
+        if (baomingInfo === null) {//无报名信息=>考生以往报过其他考试 本考试未报名,报名未确认
+            baomingInfo = { open_id: openId, ksid: ksid, code: "", bmconfirm: 0 }
+        } else {
+            that.getPath(baomingInfo.code)
+            that.data.operas[1].onoff = true //有报名信息证明 填写 照片 职位都完成了 需要打开全部环节
+            that.data.operas[2].onoff = true
+            that.data.operas[3].onoff = true
+            that.data.operas[4].onoff = true
+        }
+        that.data.baomingInfoCopy = JSON.parse(JSON.stringify(baomingInfo));
+        that.data.zhiweiPath = baomingInfo.zhiweiPath.split(',')
+        that.setData({
+            zhiweiPath: that.data.zhiweiPath,
+            baomingInfo: baomingInfo,
+            operas: that.data.operas
+        }) 
     },
 
-    init_fillTable:function(kaoshengInfo){
+    init_zhiwei: function (zhiwei) {
         let that = this
-        this.data.filltable = []
-        qcloud.request({
-            url: `${config.service.host}/baoming/kaoshengInfo/get_filltable`,
-            data: {
-                ksid:that.data.options.ksid,
-            },
-            method: 'POST',
-            header: { 'content-type':'application/x-www-form-urlencoded' },
-            success(result) {
-                if (!Object.entries)
-                    Object.entries = function (obj) {
-                        var ownProps = Object.keys(obj),
-                            i = ownProps.length,
-                            resArray = new Array(i); // preallocate the Array
-                        while (i--)
-                            resArray[i] = [ownProps[i], obj[ownProps[i]]];
-                        return resArray;
-                    };
-                const map = new Map(Object.entries(kaoshengInfo))
-                var rsfb = result.data.filltable
-                var activekeys = result.data.config.activekeys
-                for (var i = 0; i < rsfb.length; i++) {
-                    if(activekeys.search(rsfb[i].key) == -1){//fail
-                        that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'off', value: '', lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
-                    }else{
-                        that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'on', value: '', lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
-                    }
-                }
-                var ft = that.data.filltable
-                for (var i = 0; i < ft.length; i++) {
-                    ft[i].value = map.get(ft[i].key)
-                }
-                that.setData({
-                    filltable: ft,
-                    config:result.data.config,
-                })
-            },
-            fail(error) {
-                util.showModel('请求失败', error);
-                console.log('request fail', error);
-            }
+        that.data.tree_list = zhiwei
+        that.init_tree_list(that.data.tree_list)
+        that.setData({
+            tree_list: that.data.tree_list,
+            zhiweiPath: that.data.zhiweiPath
+        })
+    },
+    
+    filltable_bind_kaosheng: function (kaoshengInfo){
+        if (!Object.entries)
+        Object.entries = function( obj ){
+            var ownProps = Object.keys( obj ),
+            i = ownProps.length,
+            resArray = new Array(i); // preallocate the Array
+                while (i--)
+                resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                return resArray;
+        };
+        const map = new Map(Object.entries(kaoshengInfo))
+        var ft = this.data.filltable
+        for(var i=0;i<ft.length;i++){
+            ft[i].value = map.get(ft[i].key)
+        }
+        this.setData({
+            filltable:ft
+        })
+
+    },
+
+    init_fillTable: function (config,kaoshengInfo,filltable) {
+        var rsfb = filltable
+        var that = this
+        var activekeys = config.activekeys
+        if (!Object.entries) //避免es6不兼容的pc端登录
+            Object.entries = function (obj) {
+                var ownProps = Object.keys(obj),
+                    i = ownProps.length,
+                    resArray = new Array(i); // preallocate the Array
+                while (i--)
+                    resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                return resArray;
+            };
+        const ksmap = new Map(Object.entries(kaoshengInfo))
+        for (var i = 0; i < rsfb.length; i++) {//配置本考试所打开的所有字段为on
+            if (activekeys.search(rsfb[i].keyname) !== -1) {//存在
+                that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'on', value: ksmap.get(rsfb[i].keyname), lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
+            } 
+        }
+        that.setData({
+            filltable: that.data.filltable,
+            config: config
         })
     },
 
@@ -201,8 +179,7 @@ Page({
                 options:options
             })
         }
-        this.init_kaoshengInfo(options.openId,options.ksid) //onLoad里面init考生顺带顺带表单初始化 没有办法避免耦合
-        this.init_zhiwei(options.ksid)//异步执行，baoming职位依赖职位列别所以必须放在职位请求成功回调执行，否者会出现不显示职位路径的情况
+        this.init_page(options.openId,options.ksid) //onLoad里面init考生顺带顺带表单初始化 没有办法避免耦合
     },//}}}
 
     init_tree_list:function(tree_list){
@@ -462,7 +439,8 @@ Page({
             method: 'POST',
             header: { 'content-type': 'application/x-www-form-urlencoded' },
             success(result) {//更新后 更新所有副本
-                that.init_kaoshengInfo(that.data.options.openId,that.data.options.ksid)
+                that.init_kaoshengInfo(result.data.kaoshengInfo) 
+                that.filltable_bind_kaosheng(result.data.kaoshengInfo) 
                 wx.hideToast()
             },
             fail(error) {
@@ -504,9 +482,7 @@ Page({
                                     operas:that.data.operas
                                 })
                             }
-                            if(that.data.filltable.length == 0){
-                                that.init_fillTable(result.data.kaoshengInfo)
-                            }
+                            that.filltable_bind_kaosheng(result.data.kaoshengInfo)
                         },
                         fail(error) {
                         }
