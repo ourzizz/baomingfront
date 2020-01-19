@@ -50,7 +50,7 @@
 						<view class="weui-uploader">
 							<view class="weui-uploader__files" style="position:static">
 								<view class="weui-uploader__file">
-									<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/pages/user/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
+									<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/image/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
 								</view>
 							</view>
 							<view class="weui-uploader__input-box">
@@ -187,7 +187,7 @@
 				<view class="weui-uploader">
 					<view class="weui-uploader__files" style="position:static">
 						<view class="weui-uploader__file">
-							<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/pages/user/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
+							<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/image/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
 						</view>
 					</view>
 					<view>报名序号：{{baomingInfo.bmxh}}</view>

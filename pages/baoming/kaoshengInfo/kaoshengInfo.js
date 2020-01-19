@@ -9,30 +9,7 @@ var cosPath = "http://bjks-1252192276.cos.ap-chengdu.myqcloud.com"
 var app = getApp()
 Page({
     data: {
-        filltable: [ //下一步这里要做成数据库 直接配置生成
-            { key: 'name', onoff:'on', lable: '姓名', value: '',placeholder:'不可修改字段' },
-            { key: 'sfzid', onoff:'on', lable: '身份证号', value: '', placeholder:'不可修改字段'},
-            { key: 'politics', onoff:'on', lable: '政治面貌', value: '', placeholder:'中共党员、中共预备党员、共青团员、群众；'},
-            { key: 'birthday', onoff:'on', lable: '出生日期', value: '',placeholder:'例19900821' },
-            { key: 'sex', onoff:'on', lable: '性别', value: '',placeholder:'男或女'},
-            { key: 'telphone', onoff:'on', lable: '电话', value: '', placeholder:'联系电话'},
-            { key: 'email', onoff:'on', lable: '电子邮箱', value: '', placeholder:'邮箱'},
-            { key: 'address', onoff:'on', lable: '家庭住址', value: '', placeholder:'家庭住址'},
-            { key: 'marital', onoff:'on', lable: '婚姻状况', value: '', placeholder:'未婚、已婚、离异、丧偶'},
-            { key: 'degree', onoff:'on', lable: '学位', value: '',placeholder:'学位'},
-            { key: 'education', onoff:'on', lable: '学历', value: '',placeholder:'学历'},
-            { key: 'studentPlace', onoff:'on', lable: '生源地', value: '',placeholder:'生源地'},
-            { key: 'school', onoff:'on', lable: '毕业学校', value: '',placeholder:'毕业学校' },
-            { key: 'graduationDate', onoff:'on', lable: '毕业日期', value: '',placeholder:'毕业时间' },
-            { key: 'major', onoff:'on', lable: '所学专业', value: '',placeholder:'须与毕业证一致' },
-            { key: 'danwei', onoff:'on', lable: '工作单位', value: '',placeholder:'工作单位' },
-            { key: 'danweiagree', onoff:'on', lable: '是否同意报考', value: '',placeholder:'填是否' },
-            { key: 'jobtime', onoff:'on', lable: '工作时间', value: '',placeholder:'参加工作时间' },
-            { key: 'placeOfBirth', onoff:'on', lable: '户籍地', value: '',placeholder:'户籍地' },
-            { key: 'nationality', onoff:'on', lable: '民族', value: '',placeholder:'民族' },
-            { key: 'certificate', onoff:'on', lable: '资格证书', value: '',placeholder:'资格证书' },
-            { key: 'resume', onoff:'on', lable: '简历', value: '',placeholder:'简历从高中开始填写' }
-        ],
+        filltable: [], //下一步这里要做成数据库 直接配置生成 
         ksid: '',
         options:{},
         config:{}, //填报页面的配置属性
@@ -168,37 +145,42 @@ Page({
     },
 
     init_fillTable:function(kaoshengInfo){
-        const map = new Map(Object.entries(kaoshengInfo))
-        var ft = this.data.filltable
-        for(var i=0;i<ft.length;i++){
-            ft[i].value = map.get(ft[i].key)
-        }
-        this.setData({
-            filltable:ft
-        })
-    },
-
-    init_config:function(ksid){
         let that = this
-        util.showBusy("下载数据中")
+        this.data.filltable = []
         qcloud.request({
-            url: `${config.service.host}/baoming/kaoshengInfo/get_config`,
+            url: `${config.service.host}/baoming/kaoshengInfo/get_filltable`,
             data: {
-                ksid:ksid,
+                ksid:that.data.options.ksid,
             },
             method: 'POST',
             header: { 'content-type':'application/x-www-form-urlencoded' },
             success(result) {
-                var filltable = that.data.filltable
+                if (!Object.entries)
+                    Object.entries = function (obj) {
+                        var ownProps = Object.keys(obj),
+                            i = ownProps.length,
+                            resArray = new Array(i); // preallocate the Array
+                        while (i--)
+                            resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                        return resArray;
+                    };
+                const map = new Map(Object.entries(kaoshengInfo))
+                var rsfb = result.data.filltable
                 var activekeys = result.data.config.activekeys
-                filltable.forEach(element => {
-                    if(activekeys.search(element.key) == -1){
-                        element.onoff = 'off'
+                for (var i = 0; i < rsfb.length; i++) {
+                    if(activekeys.search(rsfb[i].key) == -1){//fail
+                        that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'off', value: '', lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
+                    }else{
+                        that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'on', value: '', lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
                     }
-                });
+                }
+                var ft = that.data.filltable
+                for (var i = 0; i < ft.length; i++) {
+                    ft[i].value = map.get(ft[i].key)
+                }
                 that.setData({
+                    filltable: ft,
                     config:result.data.config,
-                    filltable:filltable
                 })
             },
             fail(error) {
@@ -219,7 +201,6 @@ Page({
                 options:options
             })
         }
-        this.init_config(options.ksid)
         this.init_kaoshengInfo(options.openId,options.ksid) //onLoad里面init考生顺带顺带表单初始化 没有办法避免耦合
         this.init_zhiwei(options.ksid)//异步执行，baoming职位依赖职位列别所以必须放在职位请求成功回调执行，否者会出现不显示职位路径的情况
     },//}}}
@@ -523,7 +504,9 @@ Page({
                                     operas:that.data.operas
                                 })
                             }
-                            that.init_fillTable(result.data.kaoshengInfo)
+                            if(that.data.filltable.length == 0){
+                                that.init_fillTable(result.data.kaoshengInfo)
+                            }
                         },
                         fail(error) {
                         }
@@ -635,6 +618,4 @@ Page({
             step:step
         })
     },
-
-  
 })

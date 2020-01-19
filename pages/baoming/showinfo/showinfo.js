@@ -123,6 +123,15 @@ Page({
 
 
     init_fillTable:function(kaoshengInfo){
+        if (!Object.entries)
+        Object.entries = function( obj ){
+            var ownProps = Object.keys( obj ),
+            i = ownProps.length,
+            resArray = new Array(i); // preallocate the Array
+                while (i--)
+                resArray[i] = [ownProps[i], obj[ownProps[i]]];
+                return resArray;
+        };
         const map = new Map(Object.entries(kaoshengInfo))
         var ft = this.data.filltable
         for(var i=0;i<ft.length;i++){
