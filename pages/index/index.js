@@ -15,6 +15,8 @@ Page({
         hiddennav: true,
         activeIndex:0
     },
+    onShareAppMessage: function () {
+    },
     onLoad: function() {
         util.showBusy('请求中...')
         var that = this

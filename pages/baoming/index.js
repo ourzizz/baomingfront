@@ -112,10 +112,15 @@ Page({
         })
     },
 
+    goShowChengji:function(event){
+        var ksid = event.currentTarget.dataset.ks_id
+        var configid = event.currentTarget.dataset.configid
+        var openId = this.data.userInfo.openId
+        wx.navigateTo({
+            url: '/pages/baoming/chengji/chengji?openId='+openId+'&ksid='+ksid
+        })
+    },
+
     onShareAppMessage: function () {
-        return {
-            title: '网报数据填报入口',
-            path: 'page/baoming/index/'
-        }
     }
 })

@@ -93,20 +93,18 @@ Page({
 
     init_baomingInfo: function (baomingInfo) {
         let that = this
-        wx.hideToast()
         if (baomingInfo === null) {//无报名信息=>考生以往报过其他考试 本考试未报名,报名未确认
-            baomingInfo = { open_id: openId, ksid: ksid, code: "", bmconfirm: 0 }
+            baomingInfo = { open_id: this.data.options.openId, ksid: this.data.options.ksid, code: "", bmconfirm: 0 }
         } else {
             that.getPath(baomingInfo.code)
             that.data.operas[1].onoff = true //有报名信息证明 填写 照片 职位都完成了 需要打开全部环节
             that.data.operas[2].onoff = true
             that.data.operas[3].onoff = true
             that.data.operas[4].onoff = true
+            that.data.zhiweiPath = baomingInfo.zhiweiPath.split(',')
         }
         that.data.baomingInfoCopy = JSON.parse(JSON.stringify(baomingInfo));
-        that.data.zhiweiPath = baomingInfo.zhiweiPath.split(',')
         that.setData({
-            zhiweiPath: that.data.zhiweiPath,
             baomingInfo: baomingInfo,
             operas: that.data.operas
         }) 
@@ -135,7 +133,7 @@ Page({
         const map = new Map(Object.entries(kaoshengInfo))
         var ft = this.data.filltable
         for(var i=0;i<ft.length;i++){
-            ft[i].value = map.get(ft[i].key)
+            ft[i].value = map.get(ft[i].keyname)
         }
         this.setData({
             filltable:ft
@@ -156,11 +154,13 @@ Page({
                     resArray[i] = [ownProps[i], obj[ownProps[i]]];
                 return resArray;
             };
-        const ksmap = new Map(Object.entries(kaoshengInfo))
         for (var i = 0; i < rsfb.length; i++) {//配置本考试所打开的所有字段为on
             if (activekeys.search(rsfb[i].keyname) !== -1) {//存在
-                that.data.filltable.push({ key: rsfb[i].keyname, onoff: 'on', value: ksmap.get(rsfb[i].keyname), lable: rsfb[i].lable, placeholder: rsfb[i].placeholder })
+                that.data.filltable.push(rsfb[i])
             } 
+        }
+        if(!util.isEmptyObject(kaoshengInfo)){
+            this.filltable_bind_kaosheng(kaoshengInfo)
         }
         that.setData({
             filltable: that.data.filltable,
@@ -335,29 +335,20 @@ Page({
 
     input_change: function (e) {
         var kaoshengInfo = this.data.kaoshengInfo
-        this.data.kaoshengInfo[e.currentTarget.dataset.key] = e.detail.value;
+        this.data.kaoshengInfo[e.currentTarget.dataset.keyname] = e.detail.value;
     },
 
     check_message: function () {//{{{
-        var nameRegx = new RegExp('^[\u4E00-\u9FA5]{2,4}$','g');
-        var sfzRegx = new RegExp('[1-9][0-9]{5}([1][9][0-9]{2}|[2][0][0|1][0-9])([0][1-9]|[1][0|1|2])([0][1-9]|[1|2][0-9]|[3][0|1])[0-9]{3}([0-9]|[X])$','g');
-        var telphoneRegx = new RegExp('(^1[3|4|5|7|8][0-9]{9}$)', 'g');
-        var sexRegx = new RegExp('(^[男,女]$)', 'g');
-        var filltable = this.data.filltable
+        var fb = this.data.filltable
         let kaoshengInfo = this.data.kaoshengInfo
-        //this.data.kaoshengInfo.photoUrl =  this.data.imageNameList.join(",")
-        if (!nameRegx.exec(kaoshengInfo.name)) {
-            util.showModel("输入有误", "名字只能是中文不能含有空格");
-            return false
-        } else if (!telphoneRegx.exec(kaoshengInfo.telphone)) {
-            util.showModel("信息格式错误", "电话填写错误");
-            return false
-        } else if (!sfzRegx.exec(kaoshengInfo.sfzid)) {
-            util.showModel("信息不全", "身份证填写错误");
-            return false
-        } else if (!sexRegx.exec(kaoshengInfo.sex)) {
-            util.showModel("信息格式错误", "性别填男女");
-            return false
+        for(var i=0,max=fb.length;i<max;i++){
+            if(fb[i].regexpr != ''){ //正则表达式为空表示不验证
+                var regx = new RegExp(fb[i].regexpr,'g')
+                if(!regx.exec(kaoshengInfo[fb[i].keyname])){
+                    util.showModel('信息填写错误',fb[i].errmsg)
+                    return false
+                }
+            }
         }
         return true 
     },//}}}

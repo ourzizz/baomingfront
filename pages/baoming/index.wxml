@@ -11,7 +11,7 @@
         </block>
       </view>
     </view>
-        <view style="margin:20rpx"> 考试填报数据，必须先进行授权，登录完成后即可填报，一个微信号只能一人报名，不可代报，同身份证号码、同姓名、同一考试只能报名一次, 考生必须对自己填报的信息错填漏填等错误负责。
+        <view style="margin:20rpx"> 填报数据，必须先进行授权，登录完成后才能启用,信息填写人必须对所填信息错填漏填等错误进行负责。
         </view>
   </view>
   <view wx:else class="page__bd">
@@ -44,7 +44,9 @@
                       </button>
                     </block>
                     <block wx:elif="{{item.act === '成绩查询'}}">
-                      <button>查询</button>
+                      <button data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindtap="goShowChengji">
+                        成绩查询
+                      </button>
                     </block>
                   </view>
                 </view>

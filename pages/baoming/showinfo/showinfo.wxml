@@ -1,36 +1,43 @@
 <!-- pages/baoming/showinfo/showinfo.wxml -->
 <view wx:if="{{kaoshengInfo.photoUrl == 'null'}}">
-    <view  style="margin:20rpx">您尚未填写报名信息,请先在填报页面录入信息</view>
+    <view  style="margin:20rpx">没有查询到您的信息</view>
 </view>
 <scroll-view wx:else  style="height:100%;" scroll-y="true">
-    <view  class="weui">
-        <view class="weui-uploader">
-            <view class="weui-uploader__files" style="position:static">
-                <view class="weui-uploader__file">
-                    <image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/pages/user/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
-                </view>
-            </view>
-            <view>报名序号：{{baomingInfo.bmxh}}</view>
-        </view>
-    </view>
-    <view class="weui-cells weui-cells_after-title">
-        <view class="" style="margin:0 0 0 10px;">
-            <view wx:for="{{filltable}}" wx:key="{{item.key}}">
-                <view class="input_box" wx:if="{{item.onoff == 'on' && item.key!=='resume'}}">
-                    <view class="lable">{{item.lable}}:</view>
-                    <view class="value">{{item.value}}</view>
-                </view>
-                <view class="input_box" style="margin:10rpx" wx:if="{{item.key ==='resume'}}">
-                    <view style="padding:5rpx;display:inline-block;width:100%;border:1px solid;font-size:30rpx">
-                        {{item.value}}
-                    </view>
-                </view>
-            </view>
-        </view>
-    </view>
-    <view style="margin:10rpx"  wx:if="{{zhiweiPath.length > 0}}">
-        您选择的职位是:
-        <view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">{{item}}</view>
-    </view>
-    <view class="spring" />
+			<view class="weui">
+				<view class="weui-uploader">
+					<view class="weui-uploader__files" style="position:static">
+						<view class="weui-uploader__file">
+							<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/image/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage"></image>
+						</view>
+					</view>
+					<view style="font-size:30rpx">
+						报名序号：{{baomingInfo.bmxh}}
+						<view wx:if="{{baomingInfo.shenheflag == ''}}">待审核</view>
+						<view wx:if="{{baomingInfo.shenheflag == '1'}}">审核通过</view>
+						<view wx:if="{{baomingInfo.shenheflag == '2'}}">审核未通过:{{baomingInfo.reason}}</view>
+					</view>
+				</view>
+			</view>
+			<view class="weui-cells weui-cells_after-title">
+				<view class="" style="margin:0 0 0 10px;">
+					<view wx:for="{{filltable}}" wx:key="{{item.keyname}}">
+						<view class="input_box" wx:if="{{ item.keyname!=='resume'}}">
+									<view class="lable"> {{item.lable}}: </view>
+									<view class="value">{{item.value}}</view>
+						</view>
+						<view class="input_box" style="margin:10rpx" wx:if="{{item.keyname ==='resume'}}">
+							<view style="padding:5rpx;display:inline-block;width:100%;border:1px solid;font-size:30rpx">
+									{{item.value}}
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view wx:if="{{zhiweiPath.length > 0}}">
+				您选择的职位是:
+				<view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
+					{{item}}
+				</view>
+			</view>
+        	<view class="spring" />
 </scroll-view>
