@@ -1,112 +1,59 @@
-<!--index.wxml-->
 <view class="page">
-  <view style="position:relative">
-    <view class="table">
-      <!-- 日历  -->
-      <view style="position:absolute;left:15rpx;top:-2rpx"> 
-      <image style="width:80rpx;height:60rpx;" src="/image/calender.png" /> 
-      <view style="position:absolute;top:16rpx;left:25rpx;font-size:28rpx;color:yellow">{{ksdate}}</view>
-      </view>
-      <!-- 日历  -->
-      <view class="tr bg-w">
-        <view class="th">名称</view>
-        <view class="th">正在进行</view>
-        <view class="th ">截止时间</view>
-      </view>
-      <block wx:for="{{list.events}}" wx:key="{{id}}">
-        <view class="tr bg-g" wx:if="{{index % 2 == 0}}">
-          <navigator url="../webview/webview?fileid={{item.ksfileid}}" style='width:100%; display: flex;'>
-            <view class="td">{{item.eventtitle}}</view>
-            <view class="td">{{item.event}}</view>
-            <view class="td">{{item.endtime}} <image style="position:relative;top:8rpx;width:40rpx;height:40rpx" src="/image/goright.png" /> </view> </navigator>
-        </view>
-        <view class="tr" wx:else>
-          <navigator url="../webview/webview?fileid={{item.ksfileid}}" style='width:100%; display: flex;'>
-            <view class="td">{{item.eventtitle}}</view>
-            <view class="td">{{item.event}}</view>
-            <view class="td">{{item.endtime}} <image class="td" style="position:relative;top:8rpx;width:40rpx;height:40rpx" src="/image/goright.png" /> </view>
-          </navigator>
-        </view>
-      </block>
-    <navigator url="../filetime/filetime" open-type="navigate" style="width:60rpx;position:absolute;right:0rpx;bottom:-1rpx">
-      <image style="width:42rpx;height:42rpx;float:left" src="/image/more.png" />
-      <view style="position:relative;left:6rpx;bottom:10rpx;color:green;font-size:22rpx">更多</view>
-    </navigator>
-    </view>
-  </view>
-
-  <scroll-view scroll-x="true" style=" white-space: nowrap; display: flex">
-    <view class="typelist">
-      <view wx:for="{{typelist}}" wx:key="{{typelist.typeid}}" class="type-navigation">
-        <view data-typeid="{{ item.kstypeid }}" bindtap="changeFileList">
-          <image class="guideimg" src="https://www.alemao.club/weapp/images/{{item.shortname}}.png" />
-          <view wx:if="{{item.newfile!=0}}" class="weui-badge" style="position: absolute;top: -.4em;right: -.4em;">{{item.newfile}}</view>
-          <view class="element" id="{{item.kstypeid}}" style="background:{{ item.color }};padding:0 10rpx 0 10rpx">{{item.typename}}</view>
-        </view>
+  <view wx:if="{{!logged}}">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : '/image/user-unlogin.png'}}" background-size="cover"></image>
+      <view>
+        <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+          尚未登录，点击此处授权登录
+        </button>
+        <block wx:else>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
       </view>
     </view>
-  </scroll-view>
-
-  <!-- 二级导航渲染 -->
-  <view class="scroll_box" hidden="{{hiddennav}}">
-    
-      <block wx:if="{{ typeid == 2 }}">
-        <view class="item_list" wx:for="{{navlist}}" wx:key="{{navlist}}" wx:for-index="idx">
-          <button class="weui-btn mini-btn item_button" data-idx="{{idx}}" data-xianquid="{{ item.id }}" bindtap="setSydwFiles">{{item.countyname}}
-            <image class="selected"  hidden="{{activeIndex != idx}}" src="/image/selected.png" />
-          </button>
+        <view style="margin:20rpx"> 填报数据，必须先进行授权，登录完成后才能启用,信息填写人对所填信息自行进行负责。
         </view>
-      </block>
-      <block wx:elif="{{ typeid == 3 }}">
-        <view class="item_list" wx:for="{{navlist}}" wx:key="{{navlist}}" wx:for-index="idx">
-          <button class="item_button" data-idx="{{idx}}" data-ksid="{{ item.ksid }}" bindtap="setZhuanjiFiles">{{item.ksname}}
-            <image class="selected"  hidden="{{activeIndex != idx}}" src="/image/selected.png" />
-          </button>
-        </view>
-      </block>
-      <block wx:elif="{{ typeid == 4 }}">
-        <view class="item_list" wx:for="{{navlist}}"  wx:key="{{navlist}}" wx:for-index="idx">
-          <button class="weui-btn mini-btn item_button" data-idx="{{idx}}" data-xianquid="{{ item.id }}" bindtap="setShFiles">{{item.countyname}}
-            <image class="selected" hidden="{{activeIndex != idx}}" src="/image/selected.png" />
-          </button>
-        </view>
-      </block>
-    
   </view>
-  <!-- 二级导航渲染 -->
-
-  <view class="weui-panel">
-    <view class="weui-panel__bd">
-      <view wx:for="{{filelist}}" wx:key="{{item.fileid}}">
-        <view class="weui-media-box weui-media-box_small-appmsg">
-          <view class="weui-cells weui-cells_in-small-appmsg">
-            <navigator url="../webview/webview?fileid={{item.fileid}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
-              <view class="weui-cell__bd weui-cell_primary" style="font-size:30rpx">
-                <view>
-                  <view wx:if="{{item.ifnew!=0 && item.ifnew!=null}}" class="weui-badge" style="float:right">new</view>
-                  {{item.filetitle}}
-                  <!-- 事件渲染 -->
-                  <view wx:for="{{item.eventtime}}" wx:key="{{item.id}}" style='display:inline-block;float:right'>
-                    <view style='color:white;background:red;display:inline;float:left;padding:4rpx 8rpx 4rpx 8rpx;margin:1rpx 5rpx 0 0; font-size:24rpx;'> {{item.event}} </view>
-                  </view>
-                  <!-- 事件渲染 -->
-                </view>
-                <view class="weui-media-box__info">
-                  <view class="weui-media-box__info__meta weui-media-box__info__meta_extra">发布于:{{item.pubtime}} 
+  <view wx:else class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{pageEt}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item.event}}</view>
+          </view>
+        </block>
+        <!-- <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view> -->
+      </view>
+      <view class="weui-tab__panel">
+        <block wx:for="{{pageEt}}" wx:for-index="idx">
+          <view hidden="{{activeIndex != idx}}">
+              <view wx:for="{{item.filelist}}">
+                <view class="item-box">
+                  <navigator url="../webview/webview?fileid={{item.ksfileid}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-tab__content">{{item.filetitle}} 截止时间>>>>:{{item.endtime}}</view>
+                  </navigator>
+                  <view class="bottom-box">
+                    <block wx:if="{{item.act === '信息填报'}}">
+                      <button data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindtap="goFillInfo">
+                        信息填报
+                      </button>
+                    </block>
+                    <block wx:elif="{{item.act === '信息查询'}}" >
+                      <button data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindtap="goShowInfo">
+                        信息查询
+                      </button>
+                    </block>
+                    <block wx:elif="{{item.act === '成绩查询'}}">
+                      <button data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindtap="goShowChengji">
+                        成绩查询
+                      </button>
+                    </block>
                   </view>
                 </view>
               </view>
-            </navigator>
           </view>
-        </view>
+        </block>
       </view>
     </view>
   </view>
-
-  <!-- <view class="weui-footer">
-    <view class="weui-footer__links">
-      <navigator url="/pages/qxnbd/qxnbd" class="weui-footer__link">PowerBy七星诺必达</navigator>
-    </view>
-    <view class="weui-footer__text">Copyright © www.qixingnbd.com</view>
-  </view> -->
 </view>

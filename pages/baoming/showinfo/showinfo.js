@@ -1,5 +1,5 @@
 /**
- * 考生信息填写点击保存后姓名和身份证就变成不可修改字段
+ * 填报人信息填写点击保存后姓名和身份证就变成不可修改字段
  */
 var qcloud = require('../../../vendor/wafer2-client-sdk/index')
 var config = require('../../../config')
@@ -18,7 +18,7 @@ Page({
         },
         baomingInfo:{},//给后台增改(一旦报名不能删除) 包括报考职位代码 确认状态 审核情况 未通过原因
         baomingInfoCopy:{},//副本 涉及到改的都需要副本对比
-        zhiweiPath:[],//view考生只管查看已经勾选的报考地区-单位-职位信息
+        zhiweiPath:[],//view填报人只管查看已经勾选的报考地区-单位-职位信息
     },
 
     init_page:function(openId,ksid){
@@ -96,7 +96,7 @@ Page({
         })
     },
 
-    onLoad: function (options) {//{{{ 需要向后台请求考生基本信息 和报考信息
+    onLoad: function (options) {//{{{ 需要向后台请求填报人基本信息 和报考信息
         let that = this
         this.data.ksid = options.ksid
         const session = qcloud.Session.get()
@@ -107,6 +107,6 @@ Page({
                 options:options
             })
         }
-        this.init_page(options.openId,options.ksid) //onLoad里面init考生顺带顺带表单初始化 没有办法避免耦合
+        this.init_page(options.openId,options.ksid) //onLoad里面init填报人顺带顺带表单初始化 没有办法避免耦合
     }
 })

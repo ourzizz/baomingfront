@@ -16,7 +16,7 @@
 		</view>
 		<scroll-view wx:if="{{step==0 && baomingInfo.bmconfirm=='0'}}" style="height:100%;" scroll-y="true">
 			<view style="font-size:30rpx;background:light;margin:5rpx">
-				一个微信号只能绑定一名考生，提交后姓名、身份证号不可修改,考生切勿代他人填报.
+				一个微信号只能绑定一名填报人，提交后姓名、身份证号不可修改,填报人切勿代他人填报.
 			</view>
 			<view class="weui-cells weui-cells_after-title">
 				<view class="" style="margin:0 0 0 10px;">
@@ -143,7 +143,7 @@
 									<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/pages/user/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage" />
 								</view>
 								<view style="font-size:25rpx;line-height:15pt;">
-									信息确认后,不可再修改。本次上传信息仅作为辅助报名,填报数据不作为报名依据，考生必须到指定现场进行报名审核。
+									信息确认后,不可再修改。本次上传信息仅作为辅助报名,填报数据不作为报名依据，填报人必须到指定现场进行报名审核。
 								</view>
 							</view>
 						</view>

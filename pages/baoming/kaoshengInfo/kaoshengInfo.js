@@ -1,5 +1,5 @@
 /**
- * 考生信息填写点击保存后姓名和身份证就变成不可修改字段
+ * 填报人信息填写点击保存后姓名和身份证就变成不可修改字段
  * 代码长度增加后耦合性非常头疼
  */
 var qcloud = require('../../../vendor/wafer2-client-sdk/index')
@@ -20,7 +20,7 @@ Page({
         kaoshengInfo: {
             photoUrl:"null"
         },
-        kaoshengInfoCopy:{},//考生副本用于对比原始数据找出修改部分
+        kaoshengInfoCopy:{},//填报人副本用于对比原始数据找出修改部分
         userInfo:{},
         logged:false,
         localImagePath:'', //小程序wxml页面显示的图片列表,如果是修改那么就是从服务器请求的url，否则为本地选中的图片列表
@@ -30,10 +30,10 @@ Page({
         layer:[], //存储层级代码长度
         baomingInfo:{},//给后台增改(一旦报名不能删除) 包括报考职位代码 确认状态 审核情况 未通过原因
         baomingInfoCopy:{},//副本 涉及到改的都需要副本对比
-        zhiweiPath:[],//view考生只管查看已经勾选的报考地区-单位-职位信息
+        zhiweiPath:[],//view填报人只管查看已经勾选的报考地区-单位-职位信息
         operas:[
             {step:0,name:"信息填写",onoff:true},//step1一直开放
-            {step:1,name:"上传照片",onoff:false},//默认关闭 已经填过信息或者保存成功的考生开启上传
+            {step:1,name:"上传照片",onoff:false},//默认关闭 已经填过信息或者保存成功的填报人开启上传
             {step:2,name:"选择职位",onoff:false},
             {step:3,name:"信息确认",onoff:false},
             {step:4,name:"查看信息",onoff:false},
@@ -68,16 +68,16 @@ Page({
     init_kaoshengInfo:function(kaoshengInfo){
         let that = this
         wx.hideToast()
-        if (kaoshengInfo == null) {//考生没有填写过任何信息
+        if (kaoshengInfo == null) {//填报人没有填写过任何信息
             that.setData({
                 kaosheng_flg: "new",
                 // kaoshengInfo:{photoUrl:'null',ksid:ksid,sfzid:'522401198508292031',name:'测试',telphone:'13308570523'},
                 kaoshengInfo: { photoUrl: 'null', ksid: that.data.options.ksid },
             })
-        } else {//有考生信息
+        } else {//有填报人信息
             that.data.imageName = kaoshengInfo.photoUrl.replace(cosPath, '')
             that.data.operas[1].onoff = true
-            if (kaoshengInfo.photoUrl != 'null') {//考生已经上传图片 开放选择职位步骤
+            if (kaoshengInfo.photoUrl != 'null') {//填报人已经上传图片 开放选择职位步骤
                 that.data.operas[2].onoff = true
             }
             that.setData({
@@ -93,7 +93,7 @@ Page({
 
     init_baomingInfo: function (baomingInfo) {
         let that = this
-        if (baomingInfo === null) {//无报名信息=>考生以往报过其他考试 本考试未报名,报名未确认
+        if (baomingInfo === null) {//无报名信息=>填报人以往报过其他考试 本考试未报名,报名未确认
             baomingInfo = { open_id: this.data.options.openId, ksid: this.data.options.ksid, code: "", bmconfirm: 0 }
         } else {
             that.getPath(baomingInfo.code)
@@ -168,7 +168,7 @@ Page({
         })
     },
 
-    onLoad: function (options) {//{{{ 需要向后台请求考生基本信息 和报考信息
+    onLoad: function (options) {//{{{ 需要向后台请求填报人基本信息 和报考信息
         let that = this
         this.data.ksid = options.ksid
         const session = qcloud.Session.get()
@@ -179,7 +179,7 @@ Page({
                 options:options
             })
         }
-        this.init_page(options.openId,options.ksid) //onLoad里面init考生顺带顺带表单初始化 没有办法避免耦合
+        this.init_page(options.openId,options.ksid) //onLoad里面init填报人顺带顺带表单初始化 没有办法避免耦合
     },//}}}
 
     init_tree_list:function(tree_list){
@@ -356,7 +356,7 @@ Page({
     //用户点击提交
     submit:function (){//{{{
         if (this.check_message()) {
-            if(this.data.kaosheng_flg === "new"){//新增考生信息
+            if(this.data.kaosheng_flg === "new"){//新增填报人信息
                 this.new_kaosheng()
             }else{//更新数据库
                 this.update_kaosheng()
@@ -440,7 +440,7 @@ Page({
         })
     },//}}}
 
-    //新建考生信息
+    //新建填报人信息
     new_kaosheng: function () {//{{{
         let that = this
         wx.showModal({
