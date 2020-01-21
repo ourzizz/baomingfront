@@ -1,0 +1,59 @@
+<view class="page">
+  <view wx:if="{{!logged}}">
+    <view class="userinfo">
+      <image class="userinfo-avatar" src="{{logged ? userInfo.avatarUrl : '/image/user-unlogin.png'}}" background-size="cover"></image>
+      <view>
+        <button class="userinfo-nickname" wx:if="{{!logged}}" open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">
+          尚未登录，点击此处授权登录
+        </button>
+        <block wx:else>
+          <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+        </block>
+      </view>
+    </view>
+        <view style="margin:20rpx"> 填报数据，必须先进行授权，登录完成后才能启用,信息填写人对所填信息自行进行负责。
+        </view>
+  </view>
+  <view wx:else class="page__bd">
+    <view class="weui-tab">
+      <view class="weui-navbar">
+        <block wx:for="{{pageEt}}" wx:key="*this">
+          <view id="{{index}}" class="weui-navbar__item {{activeIndex == index ? 'weui-bar__item_on' : ''}}" bindtap="tabClick">
+            <view class="weui-navbar__title">{{item.event}}</view>
+          </view>
+        </block>
+        <!-- <view class="weui-navbar__slider" style="left: {{sliderLeft}}px; transform: translateX({{sliderOffset}}px); -webkit-transform: translateX({{sliderOffset}}px);"></view> -->
+      </view>
+      <view class="weui-tab__panel">
+        <block wx:for="{{pageEt}}" wx:for-index="idx">
+          <view hidden="{{activeIndex != idx}}">
+              <view wx:for="{{item.filelist}}">
+                <view class="item-box">
+                  <navigator url="../webview/webview?fileid={{item.ksfileid}}" class="weui-cell weui-cell_access" hover-class="weui-cell_active">
+                    <view class="weui-tab__content">{{item.filetitle}} 截止时间>>>>:{{item.endtime}}</view>
+                  </navigator>
+                  <view class="bottom-box">
+                    <block wx:if="{{item.act === '信息填报'}}">
+                      <button open-type="getUserInfo" data-type="fill" data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindgetuserinfo="jump">
+                        信息填报
+                      </button>
+                    </block>
+                    <block wx:elif="{{item.act === '信息查询'}}" >
+                      <button open-type="getUserInfo" data-type="show" data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindgetuserinfo="jump">
+                        信息查询
+                      </button>
+                    </block>
+                    <block wx:elif="{{item.act === '成绩查询'}}">
+                      <button open-type="getUserInfo" data-type="chengji" data-configid="{{item.id}}" data-ks_id="{{item.ksfileid}}" bindgetuserinfo="jump">
+                        成绩查询
+                      </button>
+                    </block>
+                  </view>
+                </view>
+              </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+</view>

@@ -3,6 +3,7 @@
     "pages/index/index",
     "pages/webview/webview",
     "pages/filetime/filetime",
+    "pages/baoming/index",
     "pages/baoming/kaoshengInfo/kaoshengInfo",
     "pages/baoming/chengji/chengji",
     "pages/baoming/showinfo/showinfo"
@@ -14,5 +15,24 @@
     "navigationBarTitleText": "毕节考试",
     "navigationBarTextStyle": "black"
   },
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "tabBar": {
+    "color": "#a9b7b7",
+    "selectedColor": "#11cd6e",
+    "borderStyle": "black",
+    "list": [
+      {
+        "selectedIconPath": "image/homeed.png",
+        "iconPath": "image/home.png",
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "selectedIconPath": "image/upload1.png",
+        "iconPath": "image/upload2.png",
+        "pagePath": "pages/baoming/index",
+        "text": "信息填报"
+      }  
+  ]
+}
 }

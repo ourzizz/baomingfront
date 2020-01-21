@@ -73,7 +73,7 @@
 				<scroll-view wx:if="{{operas[2].onoff == true}}" style="height:100%;" scroll-y="true">
 					<view>报名序号：{{baomingInfo.bmxh}}</view>
 					<view style="font-size:30rpx" wx:if="{{zhiweiPath.length > 0}}">
-						您选择的职位是:(选定后必须点保存)
+						填报内容:
 						<view style="color:red" wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
 							->{{item}}
 						</view>
@@ -117,11 +117,6 @@
 						</scroll-view>
 					</radio-group>
 
-					<view class="foot">
-						<view style="margin:0px auto;">
-							<button style="backgroud:#d9d9d9;margin:10rpx;" bindtap="submit_zhiwei"> 保存</button>
-						</view>
-					</view>
         			<view class="spring" />
 				</scroll-view>
 				<view wx:if="{{operas[2].onoff == false}}">
@@ -143,7 +138,7 @@
 									<image mode="aspectFit" class="weui-uploader__img" src="{{kaoshengInfo.photoUrl!=='null' ? kaoshengInfo.photoUrl : '/pages/user/user-unlogin.png'}}" data-id="{{idx}}" data-src="{{image}}" bindtap="previewImage" />
 								</view>
 								<view style="font-size:25rpx;line-height:15pt;">
-									信息确认后,不可再修改。本次上传信息仅作为辅助报名,填报数据不作为报名依据，填报人必须到指定现场进行报名审核。
+									信息确认后,不可再修改。本次上传信息仅作为辅助报名,填报数据不作为报名依据，填报人必须到指定现场进行相关审核。
 								</view>
 							</view>
 						</view>
@@ -163,8 +158,8 @@
                             </view>
 						</view>
 					</view>
-					<view wx:if="{{zhiweiPath.length > 0}}">
-						您选择的职位是:
+					<view style="margin:20rpx" wx:if="{{zhiweiPath.length > 0}}">
+						填报内容:
 						<view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
 							{{item}}
 						</view>
@@ -213,8 +208,8 @@
 					</view>
 				</view>
 			</view>
-			<view wx:if="{{zhiweiPath.length > 0}}">
-				您选择的职位是:
+			<view style="margin:20rpx" wx:if="{{zhiweiPath.length > 0}}">
+				填报内容:
 				<view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
 					{{item}}
 				</view>

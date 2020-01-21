@@ -33,9 +33,9 @@
 					</view>
 				</view>
 			</view>
-			<view wx:if="{{zhiweiPath.length > 0}}">
-				您选择的职位是:
-				<view wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
+			<view style="margin:20rpx" wx:if="{{zhiweiPath.length > 0}}">
+				您填报的内容为:
+				<view  wx:for="{{zhiweiPath}}" wx:key="{{this}}" class="zhiwei">
 					{{item}}
 				</view>
 			</view>

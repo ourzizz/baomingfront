@@ -34,7 +34,7 @@ Page({
         operas:[
             {step:0,name:"信息填写",onoff:true},//step1一直开放
             {step:1,name:"上传照片",onoff:false},//默认关闭 已经填过信息或者保存成功的填报人开启上传
-            {step:2,name:"选择职位",onoff:false},
+            {step:2,name:"报名",onoff:false},
             {step:3,name:"信息确认",onoff:false},
             {step:4,name:"查看信息",onoff:false},
         ]
@@ -229,9 +229,6 @@ Page({
         tree_list.forEach(element => {
             if (element.pptr === parentCode) {
                 element.show_self = true
-                if(element.cptr != 0 && element.show_sons ==true){
-                    this.open_node(element)
-                }
             }
         });
     },
@@ -276,7 +273,7 @@ Page({
             zhiweiPath:this.data.zhiweiPath,
         })
         wx.showModal({
-            title: '职位确认',
+            title: '填报确认',
             content: this.data.zhiweiPath.toString(),
             success(res) {
                 if (res.confirm) {
